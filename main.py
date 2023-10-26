@@ -101,7 +101,13 @@ while True:
                 else:
                     movimento_y_player = 0 
 
-                
+            #Evitar bugs
+            if pos_y_player <= 10:
+                pos_y_player = 11
+
+            if pos_y_player > 576:
+                pos_y_player = 575
+
             #Inimigo
             pygame.draw.rect(screen, (0, 0, 0), inimigo_rect, 1)
             screen.blit(inimigo_img, (pos_x_inimigo, pos_y_inimigo))
