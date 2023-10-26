@@ -11,7 +11,7 @@ y = 650
 
 #Tela
 screen = pygame.display.set_mode((x, y))
-pygame.display.set_caption('Guerra de Aviões')
+pygame.display.set_caption('Space War')
 
 #Background
 bg = pygame.image.load('img/fundo_teste.png').convert_alpha()
