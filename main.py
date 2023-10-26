@@ -13,14 +13,20 @@ y = 650
 screen = pygame.display.set_mode((x, y))
 pygame.display.set_caption('Space War')
 
-#Background
-bg = pygame.image.load('img/fundo_teste.png').convert_alpha()
+#Background Jogo
+bg = pygame.image.load('img/fundo_jogo.png').convert_alpha()
 bg = pygame.transform.scale(bg, (x, y))
 
+#Background Derrota
+bg_derrota = pygame.image.load('img/derrota.png').convert_alpha()
+bg_derrota = pygame.transform.scale(bg_derrota, (x, y))
+
 #Player
-player = pygame.image.load('img/aviao.png').convert_alpha()
-player = pygame.transform.scale(player, (67, 67))
-player = pygame.transform.rotate(player, -90)
+player_img = pygame.image.load('img/aviao.png').convert_alpha()
+player_img = pygame.transform.scale(player_img, (67, 67))
+player_img = pygame.transform.rotate(player_img, -90)
+player_rect = player_img.get_rect()
+player_derrotado = False
 
 pos_x_player = 175
 pos_y_player = y/2
@@ -28,9 +34,10 @@ pos_y_player = y/2
 movimento_y_player = 5
 
 #Inimigo
-inimigo = pygame.image.load('img/inimigo.png').convert_alpha()
-inimigo = pygame.transform.scale(inimigo, (67,67))
-inimigo = pygame.transform.rotate(inimigo, -90)
+inimigo_img = pygame.image.load('img/inimigo.png').convert_alpha()
+inimigo_img = pygame.transform.scale(inimigo_img, (67,67))
+inimigo_img = pygame.transform.rotate(inimigo_img, -90)
+inimigo_rect = inimigo_img.get_rect()
 
 pos_x_inimigo = 1100
 pos_y_inimigo = randint(67, 583)
@@ -41,6 +48,7 @@ pygame.font.init()
 fonte_letra = pygame.font.SysFont('arial', 14, False, False)
 
 
+
 pygame.init()
 while True:
     for event in pygame.event.get():
@@ -48,41 +56,56 @@ while True:
             pygame.quit()
             exit()
 
-    screen.blit(bg, (0, 0))
+    if player_derrotado == False:
+        screen.blit(bg, (0, 0))
 
-    #Movimentação da tela
-    rel_x = x % bg.get_rect().width
-    screen.blit(bg, (rel_x - bg.get_rect().width, 0))
-    if rel_x < 1000:
-        screen.blit(bg, (rel_x, 0))
-    x -= 2
+        #Movimentação da tela
+        rel_x = x % bg.get_rect().width
+        screen.blit(bg, (rel_x - bg.get_rect().width, 0))
+        if rel_x < 1000:
+            screen.blit(bg, (rel_x, 0))
+        x -= 2
 
-    #Player
-    screen.blit(player, (pos_x_player, pos_y_player))
-    if pygame.key.get_pressed()[K_UP]:
-        pos_y_player -= movimento_y_player
-        if pos_y_player > 10:
-            movimento_y_player = 5
-        else:
-            movimento_y_player = 0
+        #Player
+        pygame.draw.rect(screen, (0, 0, 0), player_rect, 1)
+        screen.blit(player_img, (pos_x_player, pos_y_player))
+        player_rect.y = pos_y_player
+        player_rect.x = pos_x_player
 
-    if pygame.key.get_pressed()[K_DOWN]:
-        pos_y_player += movimento_y_player
-        if pos_y_player <= 575:
-            movimento_y_player = 5
-        else:
-            movimento_y_player = 0 
+        if pygame.key.get_pressed()[K_UP]:
+            pos_y_player -= movimento_y_player
+            if pos_y_player > 10:
+                movimento_y_player = 5
+            else:
+                movimento_y_player = 0
+
+        if pygame.key.get_pressed()[K_DOWN]:
+            pos_y_player += movimento_y_player
+            if pos_y_player <= 575:
+                movimento_y_player = 5
+            else:
+                movimento_y_player = 0 
+
+            
+        #Inimigo
+        pygame.draw.rect(screen, (0, 0, 0), inimigo_rect, 1)
+        screen.blit(inimigo_img, (pos_x_inimigo, pos_y_inimigo))
+        inimigo_rect.y = pos_y_inimigo
+        inimigo_rect.x = pos_x_inimigo
+
+        pos_x_inimigo -= velocidade_inimigo
+        if pos_x_inimigo <= -65:
+            pos_x_inimigo = 1100
+            pos_y_inimigo = randint(10, 575)
+            velocidade_inimigo = randint(3, 10)
 
         
-        
-
-    #Inimigo
-    screen.blit(inimigo, (pos_x_inimigo, pos_y_inimigo))
-    pos_x_inimigo -= velocidade_inimigo
-    if pos_x_inimigo <= -65:
-        pos_x_inimigo = 1100
-        pos_y_inimigo = randint(10, 575)
-        velocidade_inimigo = randint(3, 10)
+        #Colisão para derrota do player
+        if inimigo_rect.colliderect(player_rect):
+            player_derrotado = True
+    
+    else:
+        screen.blit(bg_derrota, (0, 0))
 
     pygame.display.update()
     
