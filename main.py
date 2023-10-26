@@ -24,7 +24,7 @@ iniciar = False
 
 
 #Background Derrota
-bg_derrota = pygame.image.load('img/derrota.png').convert_alpha()
+bg_derrota = pygame.image.load('img/derrotado.png').convert_alpha()
 bg_derrota = pygame.transform.scale(bg_derrota, (x, y))
 
 #Player
