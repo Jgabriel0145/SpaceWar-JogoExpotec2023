@@ -24,7 +24,7 @@ iniciar = False
 
 
 #Background Derrota
-bg_derrota = pygame.image.load('img/derrotado.png').convert_alpha()
+bg_derrota = pygame.image.load('img/derrota.png').convert_alpha()
 bg_derrota = pygame.transform.scale(bg_derrota, (x, y))
 
 #Player
@@ -38,6 +38,8 @@ pos_x_player = 175
 pos_y_player = y/2
 
 movimento_y_player = 5
+
+pontuacao = 0
 
 #Inimigo
 inimigo_img = pygame.image.load('img/inimigo.png').convert_alpha()
@@ -118,9 +120,15 @@ while True:
                 player_derrotado = True
         
         else:
+            #Tela de derrota
             screen.blit(bg_derrota, (0, 0))
+            if pygame.key.get_pressed()[K_KP_ENTER] or pygame.key.get_pressed()[K_RETURN]:
+                pontuacao = 0
+                pygame.quit()
+                exit()
 
     else:
+        #Tela iniciar
         screen.blit(bg_comecar, (0, 0))
         if pygame.key.get_pressed()[K_KP_ENTER] or pygame.key.get_pressed()[K_RETURN]:
             iniciar = True
