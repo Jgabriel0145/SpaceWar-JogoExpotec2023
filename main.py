@@ -22,10 +22,25 @@ bg_comecar = pygame.image.load('img/comecar.png').convert_alpha()
 bg_comecar = pygame.transform.scale(bg_comecar, (x, y))
 iniciar = False
 
-
 #Background Derrota
 bg_derrota = pygame.image.load('img/derrota.png').convert_alpha()
 bg_derrota = pygame.transform.scale(bg_derrota, (x, y))
+
+
+#Tiro
+tiro_img = pygame.image.load('img/tiro.png').convert_alpha()
+tiro_img = pygame.transform.scale(tiro_img, (15, 15))
+tiro_rect = tiro_img.get_rect()
+
+pos_x_tiro = 200
+pos_y_tiro = (y/2) + 25
+
+movimento_y_tiro = 0
+movimento_x_tiro = 0
+
+velocidade_x_tiro = 0
+
+atirou = False
 
 #Player
 player_img = pygame.image.load('img/aviao.png').convert_alpha()
@@ -51,34 +66,19 @@ pos_x_inimigo = 1100
 pos_y_inimigo = randint(67, 583)
 velocidade_inimigo = 3
 
-#Tiro
-tiro_img = pygame.image.load('img/tiro.png').convert_alpha()
-tiro_img = pygame.transform.scale(tiro_img, (15, 15))
-tiro_rect = tiro_img.get_rect()
-
-pos_x_tiro = pos_x_player + 25
-pos_y_tiro = pos_y_player + 25
-
-movimento_y_tiro = 0
-movimento_x_tiro = 0
-
-velocidade_x_tiro = 0
-
-atirou = False
-
 #Fonte
 pygame.font.init()
-fonte_letra = pygame.font.SysFont('arial', 14, False, False)
+fonte_letra = pygame.font.SysFont('fonte/TTSquares-Bold.ttf', 14, False, False)
 
 #Surfaces
+tiro_surface = pygame.Surface(player_rect.size, pygame.SRCALPHA)
+tiro_surface.blit(tiro_img, (0, 0))
+
 player_surface = pygame.Surface(player_rect.size, pygame.SRCALPHA)
 player_surface.blit(player_img, (0, 0))
 
 inimigo_surface = pygame.Surface(inimigo_rect.size, pygame.SRCALPHA)
 inimigo_surface.blit(inimigo_img, (0, 0))
-
-tiro_surface = pygame.Surface(player_rect.size, pygame.SRCALPHA)
-tiro_surface.blit(tiro_img, (0, 0))
 
 pygame.init()
 while True:
@@ -100,14 +100,44 @@ while True:
                 screen.blit(bg, (rel_x, 0))
             x -= 2
 
+
+            #Tiro
+            #A movimentação y está no player.
+            screen.blit(tiro_surface, (pos_x_tiro, pos_y_tiro))
+            tiro_rect.y = pos_y_tiro
+            tiro_rect.x = pos_x_tiro
+
+            if pygame.key.get_pressed()[K_SPACE]:
+                atirou = True
+                velocidade_x_tiro = 10
+
+            if atirou:
+                pos_x_tiro += velocidade_x_tiro
+
+                if inimigo_rect.colliderect(tiro_rect):
+                    atirou = False
+                    velocidade_x_tiro = 0
+                    pos_x_tiro = pos_x_player + 25
+                    pos_y_tiro = pos_y_player + 25
+                    pos_x_inimigo = 1100
+                    pos_y_inimigo = randint(10, 575)
+                    velocidade_x_inimigo = randint(3, 9)
+
+                if pos_x_tiro >= 1001:
+                    atirou = False
+                    velocidade_x_tiro = 0
+                    pos_x_tiro = pos_x_player + 25
+                    pos_y_tiro = pos_y_player + 25
+
+
             #Player
             screen.blit(player_surface, (pos_x_player, pos_y_player))
             player_rect.y = pos_y_player
             player_rect.x = pos_x_player
 
             if pygame.key.get_pressed()[K_UP]:
-                pos_y_player -= movimento_y_player
                 pos_y_tiro -= movimento_y_tiro
+                pos_y_player -= movimento_y_player
 
                 if pos_y_player > 10:
                     movimento_y_player = 5
@@ -120,8 +150,8 @@ while True:
                     movimento_y_tiro = 0
 
             if pygame.key.get_pressed()[K_DOWN]:
-                pos_y_player += movimento_y_player
                 pos_y_tiro += movimento_y_tiro
+                pos_y_player += movimento_y_player
 
                 if pos_y_player <= 575:
                     movimento_y_player = 5
@@ -154,34 +184,6 @@ while True:
                 pos_x_inimigo = 1100
                 pos_y_inimigo = randint(10, 575)
                 velocidade_inimigo = randint(3, 9)
-
-            #Tiro
-            #A movimentação y está no player.
-            screen.blit(tiro_surface, (pos_x_tiro, pos_y_tiro))
-            tiro_rect.y = pos_y_tiro
-            tiro_rect.x = pos_x_tiro
-
-            if pygame.key.get_pressed()[K_SPACE]:
-                atirou = True
-                velocidade_x_tiro = 10
-
-            if atirou:
-                pos_x_tiro += velocidade_x_tiro
-
-                if inimigo_rect.colliderect(tiro_rect):
-                    atirou = False
-                    velocidade_x_tiro = 0
-                    pos_x_tiro = pos_x_player + 25
-                    pos_y_tiro = pos_y_player + 25
-                    pos_x_inimigo = 1100
-                    pos_y_inimigo = randint(10, 575)
-                    velocidade_x_inimigo = randint(3, 9)
-
-                if pos_x_tiro >= 1001:
-                    atirou = False
-                    velocidade_x_tiro = 0
-                    pos_x_tiro = pos_x_player + 25
-                    pos_y_tiro = pos_y_player + 25
 
             
             #Colisão para derrota do player
