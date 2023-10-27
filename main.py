@@ -29,7 +29,7 @@ bg_derrota = pygame.transform.scale(bg_derrota, (x, y))
 
 #Player
 player_img = pygame.image.load('img/aviao.png').convert_alpha()
-player_img = pygame.transform.scale(player_img, (67, 67))
+player_img = pygame.transform.scale(player_img, (65, 65))
 player_img = pygame.transform.rotate(player_img, -90)
 player_rect = player_img.get_rect()
 player_derrotado = False
@@ -43,7 +43,7 @@ pontuacao = 0
 
 #Inimigo
 inimigo_img = pygame.image.load('img/inimigo.png').convert_alpha()
-inimigo_img = pygame.transform.scale(inimigo_img, (67,67))
+inimigo_img = pygame.transform.scale(inimigo_img, (65,65))
 inimigo_img = pygame.transform.rotate(inimigo_img, -90)
 inimigo_rect = inimigo_img.get_rect()
 
@@ -53,8 +53,18 @@ velocidade_inimigo = 3
 
 #Tiro
 tiro_img = pygame.image.load('img/tiro.png').convert_alpha()
-tiro_img = pygame.transform.scale(tiro_img, (25, 25))
+tiro_img = pygame.transform.scale(tiro_img, (15, 15))
 tiro_rect = tiro_img.get_rect()
+
+pos_x_tiro = pos_x_player + 25
+pos_y_tiro = pos_y_player + 25
+
+movimento_y_tiro = 0
+movimento_x_tiro = 0
+
+velocidade_x_tiro = 0
+
+atirou = False
 
 #Fonte
 pygame.font.init()
@@ -63,7 +73,7 @@ fonte_letra = pygame.font.SysFont('arial', 14, False, False)
 
 pygame.init()
 while True:
-    clock.tick(150)
+    #clock.tick(150)
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -89,24 +99,48 @@ while True:
 
             if pygame.key.get_pressed()[K_UP]:
                 pos_y_player -= movimento_y_player
+                pos_y_tiro -= movimento_y_tiro
+
                 if pos_y_player > 10:
                     movimento_y_player = 5
+                    if not atirou:
+                        movimento_y_tiro = 5
+                    else:
+                        movimento_y_tiro = 0
                 else:
                     movimento_y_player = 0
+                    movimento_y_tiro = 0
 
             if pygame.key.get_pressed()[K_DOWN]:
                 pos_y_player += movimento_y_player
+                pos_y_tiro += movimento_y_tiro
+
                 if pos_y_player <= 575:
                     movimento_y_player = 5
+                    if not atirou:
+                        movimento_y_tiro = 5
+                    else:
+                        movimento_y_tiro = 0
                 else:
                     movimento_y_player = 0 
+                    movimento_y_tiro = 0
 
             #Evitar bugs
             if pos_y_player <= 10:
                 pos_y_player = 11
+                if not atirou:
+                    pos_y_tiro = 36
 
             if pos_y_player > 576:
                 pos_y_player = 575
+                if not atirou:
+                    pos_y_tiro = 600
+
+            #if pos_y_tiro <= 10:
+            #    pos_y_tiro = 11
+
+            #if pos_y_tiro > 576:
+            #    pos_y_tiro = 575
 
             #Inimigo
             pygame.draw.rect(screen, (0, 0, 0), inimigo_rect, 1)
@@ -120,6 +154,13 @@ while True:
                 pos_y_inimigo = randint(10, 575)
                 velocidade_inimigo = randint(3, 10)
 
+            #Tiro
+            #A movimentação y está no player.
+            pygame.draw.rect(screen, (0, 0, 0), tiro_rect, 1)
+            screen.blit(tiro_img, (pos_x_tiro, pos_y_tiro))
+
+            if pygame.key.get_pressed()[K_SPACE]:
+                atirou = True
             
             #Colisão para derrota do player
             if inimigo_rect.colliderect(player_rect):
