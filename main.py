@@ -10,7 +10,7 @@ x = 1000
 y = 650
 
 #Tela
-screen = pygame.display.set_mode((x, y))
+screen = pygame.display.set_mode((x, y), pygame.SRCALPHA)
 pygame.display.set_caption('Space War')
 
 #Background Jogo
@@ -70,6 +70,15 @@ atirou = False
 pygame.font.init()
 fonte_letra = pygame.font.SysFont('arial', 14, False, False)
 
+#Surfaces
+player_surface = pygame.Surface(player_rect.size, pygame.SRCALPHA)
+player_surface.blit(player_img, (0, 0))
+
+inimigo_surface = pygame.Surface(inimigo_rect.size, pygame.SRCALPHA)
+inimigo_surface.blit(inimigo_img, (0, 0))
+
+tiro_surface = pygame.Surface(player_rect.size, pygame.SRCALPHA)
+tiro_surface.blit(tiro_img, (0, 0))
 
 pygame.init()
 while True:
@@ -92,8 +101,7 @@ while True:
             x -= 2
 
             #Player
-            pygame.draw.rect(screen, (0, 0, 0), player_rect, 1)
-            screen.blit(player_img, (pos_x_player, pos_y_player))
+            screen.blit(player_surface, (pos_x_player, pos_y_player))
             player_rect.y = pos_y_player
             player_rect.x = pos_x_player
 
@@ -137,8 +145,7 @@ while True:
                     pos_y_tiro = 600
 
             #Inimigo
-            pygame.draw.rect(screen, (0, 0, 0), inimigo_rect, 1)
-            screen.blit(inimigo_img, (pos_x_inimigo, pos_y_inimigo))
+            screen.blit(inimigo_surface, (pos_x_inimigo, pos_y_inimigo))
             inimigo_rect.y = pos_y_inimigo
             inimigo_rect.x = pos_x_inimigo
 
@@ -150,8 +157,7 @@ while True:
 
             #Tiro
             #A movimentação y está no player.
-            pygame.draw.rect(screen, (0, 0, 0), tiro_rect, 1)
-            screen.blit(tiro_img, (pos_x_tiro, pos_y_tiro))
+            screen.blit(tiro_surface, (pos_x_tiro, pos_y_tiro))
             tiro_rect.y = pos_y_tiro
             tiro_rect.x = pos_x_tiro
 
