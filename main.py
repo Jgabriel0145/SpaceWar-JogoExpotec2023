@@ -136,12 +136,6 @@ while True:
                 if not atirou:
                     pos_y_tiro = 600
 
-            #if pos_y_tiro <= 10:
-            #    pos_y_tiro = 11
-
-            #if pos_y_tiro > 576:
-            #    pos_y_tiro = 575
-
             #Inimigo
             pygame.draw.rect(screen, (0, 0, 0), inimigo_rect, 1)
             screen.blit(inimigo_img, (pos_x_inimigo, pos_y_inimigo))
@@ -152,15 +146,37 @@ while True:
             if pos_x_inimigo <= -65:
                 pos_x_inimigo = 1100
                 pos_y_inimigo = randint(10, 575)
-                velocidade_inimigo = randint(3, 10)
+                velocidade_inimigo = randint(3, 9)
 
             #Tiro
             #A movimentação y está no player.
             pygame.draw.rect(screen, (0, 0, 0), tiro_rect, 1)
             screen.blit(tiro_img, (pos_x_tiro, pos_y_tiro))
+            tiro_rect.y = pos_y_tiro
+            tiro_rect.x = pos_x_tiro
 
             if pygame.key.get_pressed()[K_SPACE]:
                 atirou = True
+                velocidade_x_tiro = 10
+
+            if atirou:
+                pos_x_tiro += velocidade_x_tiro
+
+                if inimigo_rect.colliderect(tiro_rect):
+                    atirou = False
+                    velocidade_x_tiro = 0
+                    pos_x_tiro = pos_x_player + 25
+                    pos_y_tiro = pos_y_player + 25
+                    pos_x_inimigo = 1100
+                    pos_y_inimigo = randint(10, 575)
+                    velocidade_x_inimigo = randint(3, 9)
+
+                if pos_x_tiro >= 1001:
+                    atirou = False
+                    velocidade_x_tiro = 0
+                    pos_x_tiro = pos_x_player + 25
+                    pos_y_tiro = pos_y_player + 25
+
             
             #Colisão para derrota do player
             if inimigo_rect.colliderect(player_rect):
