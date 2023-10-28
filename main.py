@@ -33,7 +33,7 @@ tiro_img = pygame.transform.scale(tiro_img, (15, 15))
 tiro_rect = tiro_img.get_rect()
 
 pos_x_tiro = 200
-pos_y_tiro = (y/2) + 25
+pos_y_tiro = (y/2) + 26
 
 movimento_y_tiro = 0
 movimento_x_tiro = 0
@@ -43,8 +43,8 @@ velocidade_x_tiro = 0
 atirou = False
 
 #Player
-player_img = pygame.image.load('img/aviao.png').convert_alpha()
-player_img = pygame.transform.scale(player_img, (65, 65))
+player_img = pygame.image.load('img/player.png').convert_alpha()
+player_img = pygame.transform.scale(player_img, (67, 67))
 player_img = pygame.transform.rotate(player_img, -90)
 player_rect = player_img.get_rect()
 player_derrotado = False
@@ -59,7 +59,7 @@ pontuacao = 0
 #Inimigo
 inimigo_img = pygame.image.load('img/inimigo.png').convert_alpha()
 inimigo_img = pygame.transform.scale(inimigo_img, (65,65))
-inimigo_img = pygame.transform.rotate(inimigo_img, -90)
+inimigo_img = pygame.transform.rotate(inimigo_img, 90)
 inimigo_rect = inimigo_img.get_rect()
 
 pos_x_inimigo = 1100
@@ -117,17 +117,17 @@ while True:
                 if inimigo_rect.colliderect(tiro_rect):
                     atirou = False
                     velocidade_x_tiro = 0
-                    pos_x_tiro = pos_x_player + 25
-                    pos_y_tiro = pos_y_player + 25
+                    pos_x_tiro = pos_x_player + 26
+                    pos_y_tiro = pos_y_player + 26
                     pos_x_inimigo = 1100
                     pos_y_inimigo = randint(10, 575)
-                    velocidade_x_inimigo = randint(3, 9)
+                    velocidade_x_inimigo = randint(3, 10)
 
                 if pos_x_tiro >= 1001:
                     atirou = False
                     velocidade_x_tiro = 0
-                    pos_x_tiro = pos_x_player + 25
-                    pos_y_tiro = pos_y_player + 25
+                    pos_x_tiro = pos_x_player + 26
+                    pos_y_tiro = pos_y_player + 26
 
 
             #Player
@@ -183,7 +183,7 @@ while True:
             if pos_x_inimigo <= -65:
                 pos_x_inimigo = 1100
                 pos_y_inimigo = randint(10, 575)
-                velocidade_inimigo = randint(3, 9)
+                velocidade_inimigo = randint(3, 10)
 
             
             #Colisão para derrota do player
