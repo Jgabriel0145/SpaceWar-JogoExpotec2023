@@ -68,7 +68,8 @@ velocidade_inimigo = 3
 
 #Fonte
 pygame.font.init()
-fonte_letra = pygame.font.SysFont('fonte/TTSquares-Bold.ttf', 14, False, False)
+fonte_pontuacao_jogo = pygame.font.SysFont('fonte/TTSquares-Bold.ttf', 40, True, False)
+fonte_pontuacao_derrota = pygame.font.SysFont('fonte/TTSquares-Bold.ttf', 100, True, False)
 
 #Surfaces
 tiro_surface = pygame.Surface(player_rect.size, pygame.SRCALPHA)
@@ -100,6 +101,12 @@ while True:
                 screen.blit(bg, (rel_x, 0))
             x -= 2
 
+            #Pontuação
+            if pontuacao <= -1:
+                player_derrotado = True
+                pontuacao = 0
+            mensagem = fonte_pontuacao_jogo.render(f'Pontuação: {pontuacao}', False, (255, 255, 255))
+            screen.blit(mensagem, (410, 50))
 
             #Tiro
             #A movimentação y está no player.
@@ -117,6 +124,7 @@ while True:
                 if inimigo_rect.colliderect(tiro_rect):
                     atirou = False
                     velocidade_x_tiro = 0
+                    pontuacao += 10
                     pos_x_tiro = pos_x_player + 26
                     pos_y_tiro = pos_y_player + 26
                     pos_x_inimigo = 1100
@@ -181,6 +189,7 @@ while True:
 
             pos_x_inimigo -= velocidade_inimigo
             if pos_x_inimigo <= -65:
+                pontuacao -= 10
                 pos_x_inimigo = 1100
                 pos_y_inimigo = randint(10, 575)
                 velocidade_inimigo = randint(3, 10)
@@ -193,6 +202,9 @@ while True:
         else:
             #Tela de derrota
             screen.blit(bg_derrota, (0, 0))
+            mensagem = fonte_pontuacao_derrota.render(f'{pontuacao}', False, (255, 255, 255))
+            screen.blit(mensagem, (675, 320))
+
             if pygame.key.get_pressed()[K_KP_ENTER] or pygame.key.get_pressed()[K_RETURN]:
                 pontuacao = 0
                 pygame.quit()
