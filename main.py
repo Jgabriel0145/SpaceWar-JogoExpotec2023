@@ -13,6 +13,9 @@ y = 650
 screen = pygame.display.set_mode((x, y), pygame.SRCALPHA)
 pygame.display.set_caption('Space War')
 
+imagem_icon = pygame.image.load('img/player.ico')
+pygame.display.set_icon(imagem_icon)
+
 #Background Jogo
 bg = pygame.image.load('img/fundo_jogo.png').convert_alpha()
 bg = pygame.transform.scale(bg, (x, y))
