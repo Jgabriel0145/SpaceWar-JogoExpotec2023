@@ -103,7 +103,7 @@ inimigo_surface_2.blit(inimigo_img, (0, 0))
 
 pygame.init()
 while True:
-    #clock.tick(150)
+    clock.tick(400)
 
     for event in pygame.event.get():
         if event.type == QUIT:
