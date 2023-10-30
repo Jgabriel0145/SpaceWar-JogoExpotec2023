@@ -116,7 +116,7 @@ inimigo_surface_2.blit(inimigo_img, (0, 0))
 
 pygame.init()
 while True:
-    #clock.tick(400)
+    clock.tick(400)
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -141,15 +141,30 @@ while True:
                 pos_y_tiro -= movimento_y_tiro
 
                 if pos_y_player > 10:
-                    movimento_y_player = 13
+                    if level == 1:
+                        movimento_y_player = 5
+                    elif level == 2:
+                        movimento_y_player = 8
+                    else: 
+                        movimento_y_player = 13
 
                     if not atirou:
-                        movimento_y_tiro = 13
+                        if level == 1:
+                            movimento_y_tiro = 5
+                        elif level == 2:
+                            movimento_y_tiro = 8
+                        else: 
+                            movimento_y_tiro = 13
                     else:
                         movimento_y_tiro = 0
 
                     if not atirou2:
-                        movimento_y_tiro_2 = 13
+                        if level == 1:
+                            movimento_y_tiro_2 = 5
+                        elif level == 2:
+                            movimento_y_tiro_2 = 8
+                        else: 
+                            movimento_y_tiro_2 = 13
                     else:
                         movimento_y_tiro_2 = 0
 
@@ -174,15 +189,30 @@ while True:
                 pos_y_tiro_2 += movimento_y_tiro_2            
 
                 if pos_y_player <= 575:
-                    movimento_y_player = 13
-                        
+                    if level == 1:
+                        movimento_y_player = 5
+                    elif level == 2:
+                        movimento_y_player = 8
+                    else: 
+                        movimento_y_player = 13
+
                     if not atirou:
-                        movimento_y_tiro = 13
+                        if level == 1:
+                            movimento_y_tiro = 5
+                        elif level == 2:
+                            movimento_y_tiro = 8
+                        else: 
+                            movimento_y_tiro = 13
                     else:
                         movimento_y_tiro = 0
 
                     if not atirou2:
-                        movimento_y_tiro_2 = 13
+                        if level == 1:
+                            movimento_y_tiro_2 = 5
+                        elif level == 2:
+                            movimento_y_tiro_2 = 8
+                        else: 
+                            movimento_y_tiro_2 = 13
                     else:
                         movimento_y_tiro_2 = 0
                             
@@ -231,7 +261,12 @@ while True:
             #Tiro
             if pygame.key.get_pressed()[K_a]:
                 atirou = True
-                velocidade_x_tiro = 20   
+                if level == 1:
+                    velocidade_x_tiro = 10
+                elif level == 2:
+                    velocidade_x_tiro = 15
+                else:
+                   velocidade_x_tiro = 20   
 
             if atirou:
                 pos_x_tiro += velocidade_x_tiro
@@ -286,7 +321,12 @@ while True:
 
             if pygame.key.get_pressed()[K_s]:
                 atirou2 = True
-                velocidade_x_tiro_2 = 20
+                if level == 1:
+                    velocidade_x_tiro_2 = 10
+                elif level == 2:
+                    velocidade_x_tiro_2 = 15
+                else:
+                   velocidade_x_tiro_2 = 20 
 
             if atirou2:
                 pos_x_tiro_2 += velocidade_x_tiro_2
@@ -391,7 +431,7 @@ while True:
             if pontuacao == 150:
                 level = 2
             
-            if pontuacao == 1000:
+            if pontuacao >= 1000:
                 level = 3
 
             #Colisão para derrota do player
