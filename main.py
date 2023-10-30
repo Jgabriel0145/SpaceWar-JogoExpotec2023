@@ -34,19 +34,29 @@ bg_vitoria = pygame.image.load('img/vitoria.png').convert_alpha()
 bg_vitoria = pygame.transform.scale(bg_vitoria, (x, y))
 
 #Tiro
+#Tiro
 tiro_img = pygame.image.load('img/tiro.png').convert_alpha()
 tiro_img = pygame.transform.scale(tiro_img, (15, 15))
 tiro_rect = tiro_img.get_rect()
+tiro_rect_2 = tiro_img.get_rect()
 
 pos_x_tiro = 200
 pos_y_tiro = (y/2) + 26
 
+pos_x_tiro_2 = 200
+pos_y_tiro_2 = (y/2) + 26
+
 movimento_y_tiro = 0
 movimento_x_tiro = 0
 
+movimento_y_tiro_2 = 0
+movimento_x_tiro_2 = 0
+
 velocidade_x_tiro = 0
+velocidade_x_tiro_2 = 0
 
 atirou = False
+atirou2 = False
 
 #Player
 player_img = pygame.image.load('img/player.png').convert_alpha()
@@ -92,6 +102,9 @@ fonte_pontuacao_derrota = pygame.font.SysFont('fonte/TTSquares-Bold.ttf', 100, T
 tiro_surface = pygame.Surface(tiro_rect.size, pygame.SRCALPHA)
 tiro_surface.blit(tiro_img, (0, 0))
 
+tiro_surface_2 = pygame.Surface(tiro_rect_2.size, pygame.SRCALPHA)
+tiro_surface_2.blit(tiro_img, (0, 0))
+
 player_surface = pygame.Surface(player_rect.size, pygame.SRCALPHA)
 player_surface.blit(player_img, (0, 0))
 
@@ -103,7 +116,7 @@ inimigo_surface_2.blit(inimigo_img, (0, 0))
 
 pygame.init()
 while True:
-    clock.tick(400)
+    #clock.tick(400)
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -122,8 +135,9 @@ while True:
             x -= 2
 
             #Player
-            if pygame.key.get_pressed()[K_UP] or pygame.key.get_pressed()[K_w]:
+            if pygame.key.get_pressed()[K_UP]:
                 pos_y_player -= movimento_y_player
+                pos_y_tiro_2 -= movimento_y_tiro_2
                 pos_y_tiro -= movimento_y_tiro
 
                 if pos_y_player > 10:
@@ -134,60 +148,90 @@ while True:
                     else:
                         movimento_y_tiro = 0
 
+                    if not atirou2:
+                        movimento_y_tiro_2 = 13
+                    else:
+                        movimento_y_tiro_2 = 0
+
                 else:
                     movimento_y_player = 0
                     if not atirou:
                         movimento_y_tiro = 0
+                    if not atirou2:
+                        movimento_y_tiro_2 = 0
 
             if not atirou:
                 tiro_rect.y = pos_y_tiro
                 tiro_rect.x = pos_x_tiro
 
-            if pygame.key.get_pressed()[K_DOWN] or pygame.key.get_pressed()[K_s]:                
+            if not atirou2:
+                tiro_rect_2.y = pos_y_tiro_2
+                tiro_rect_2.x = pos_x_tiro_2
+
+            if pygame.key.get_pressed()[K_DOWN]:                
                 pos_y_player += movimento_y_player
-                pos_y_tiro += movimento_y_tiro                
+                pos_y_tiro += movimento_y_tiro    
+                pos_y_tiro_2 += movimento_y_tiro_2            
 
                 if pos_y_player <= 575:
                     movimento_y_player = 13
                         
                     if not atirou:
                         movimento_y_tiro = 13
-
                     else:
                         movimento_y_tiro = 0
+
+                    if not atirou2:
+                        movimento_y_tiro_2 = 13
+                    else:
+                        movimento_y_tiro_2 = 0
                             
                 else:
                     movimento_y_player = 0
                     if not atirou:
                         movimento_y_tiro = 0
+                    if not atirou2:
+                        movimento_y_tiro_2 = 0
             
             if not atirou:
                 tiro_rect.y = pos_y_tiro
                 tiro_rect.x = pos_x_tiro
+
+            if not atirou2:
+                tiro_rect_2.y = pos_y_tiro_2
+                tiro_rect_2.x = pos_x_tiro_2
 
             #Evitar bugs
             if pos_y_player <= 10:
                 pos_y_player = 11
                 if not atirou:
                     pos_y_tiro = 36
+                if not atirou2:
+                    pos_y_tiro_2 = 36
 
             if pos_y_player > 576:
                 pos_y_player = 575
                 if not atirou:
                     pos_y_tiro = 600
+                if not atirou2:
+                    pos_y_tiro_2 = 600
 
             screen.blit(tiro_surface, (pos_x_tiro, pos_y_tiro))
             tiro_rect.y = pos_y_tiro
             tiro_rect.x = pos_x_tiro
+
+            screen.blit(tiro_surface, (pos_x_tiro_2, pos_y_tiro_2))
+            tiro_rect_2.y = pos_y_tiro_2
+            tiro_rect_2.x = pos_x_tiro_2
 
             screen.blit(player_surface, (pos_x_player, pos_y_player))
             player_rect.y = pos_y_player
             player_rect.x = pos_x_player
             
             #Tiro
-            if pygame.key.get_pressed()[K_SPACE]:
+            if pygame.key.get_pressed()[K_a]:
                 atirou = True
-                velocidade_x_tiro = 20      
+                velocidade_x_tiro = 20   
 
             if atirou:
                 pos_x_tiro += velocidade_x_tiro
@@ -239,6 +283,62 @@ while True:
                     velocidade_x_tiro = 0
                     pos_x_tiro = pos_x_player + 26
                     pos_y_tiro = pos_y_player + 26
+
+            if pygame.key.get_pressed()[K_s]:
+                atirou2 = True
+                velocidade_x_tiro_2 = 20
+
+            if atirou2:
+                pos_x_tiro_2 += velocidade_x_tiro_2
+
+                if inimigo_rect.colliderect(tiro_rect_2):
+                    atirou2 = False
+                    velocidade_x_tiro_2 = 0
+                    
+                    if level == 1:
+                        pontuacao += 10
+                    elif level == 2:
+                        pontuacao += 50
+                    elif level == 3:
+                        pontuacao += 100
+                    
+                    pos_x_tiro_2 = pos_x_player + 26
+                    pos_y_tiro_2 = pos_y_player + 26
+                    pos_x_inimigo = 1100
+                    pos_y_inimigo = randint(10, 575)
+                    if level == 1:
+                        velocidade_x_inimigo = randint(3, 4)
+                    elif level == 2:
+                        velocidade_x_inimigo = randint(5, 10)
+                    elif level == 3:
+                        velocidade_x_inimigo = randint(10, 20)
+                
+                if inimigo_rect_2.colliderect(tiro_rect_2):
+                    atirou2 = False
+                    velocidade_x_tiro_2 = 0
+                    
+                    if level == 1:
+                        pontuacao += 10
+                    elif level == 2:
+                        pontuacao += 50
+                    elif level == 3:
+                        pontuacao += 100
+
+                    pos_x_tiro_2 = pos_x_player + 26
+                    pos_y_tiro_2 = pos_y_player + 26
+                    pos_x_inimigo_2 = 1100
+                    pos_y_inimigo_2 = randint(10, 575)
+                    if level == 2:
+                        velocidade_x_inimigo = randint(5, 10)
+                    elif level == 3:
+                        velocidade_x_inimigo = randint(10, 20)
+
+                if pos_x_tiro_2 >= 1001:
+                    atirou2 = False
+                    velocidade_x_tiro_2 = 0
+                    pos_x_tiro_2 = pos_x_player + 26
+                    pos_y_tiro_2 = pos_y_player + 26
+
 
             #Inimigo
             screen.blit(inimigo_surface, (pos_x_inimigo, pos_y_inimigo))
