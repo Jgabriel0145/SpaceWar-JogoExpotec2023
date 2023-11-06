@@ -116,7 +116,7 @@ inimigo_surface_2.blit(inimigo_img, (0, 0))
 
 pygame.init()
 while True:
-    clock.tick(400)
+    clock.tick(125)
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -144,17 +144,17 @@ while True:
                     if level == 1:
                         movimento_y_player = 5
                     elif level == 2:
-                        movimento_y_player = 8
+                        movimento_y_player = 7
                     else: 
-                        movimento_y_player = 13
+                        movimento_y_player = 10
 
                     if not atirou:
                         if level == 1:
                             movimento_y_tiro = 5
                         elif level == 2:
-                            movimento_y_tiro = 8
+                            movimento_y_tiro = 7
                         else: 
-                            movimento_y_tiro = 13
+                            movimento_y_tiro = 10
                     else:
                         movimento_y_tiro = 0
 
@@ -162,9 +162,9 @@ while True:
                         if level == 1:
                             movimento_y_tiro_2 = 5
                         elif level == 2:
-                            movimento_y_tiro_2 = 8
+                            movimento_y_tiro_2 = 7
                         else: 
-                            movimento_y_tiro_2 = 13
+                            movimento_y_tiro_2 = 10
                     else:
                         movimento_y_tiro_2 = 0
 
@@ -192,17 +192,17 @@ while True:
                     if level == 1:
                         movimento_y_player = 5
                     elif level == 2:
-                        movimento_y_player = 8
+                        movimento_y_player = 7
                     else: 
-                        movimento_y_player = 13
+                        movimento_y_player = 10
 
                     if not atirou:
                         if level == 1:
                             movimento_y_tiro = 5
                         elif level == 2:
-                            movimento_y_tiro = 8
+                            movimento_y_tiro = 7
                         else: 
-                            movimento_y_tiro = 13
+                            movimento_y_tiro = 10
                     else:
                         movimento_y_tiro = 0
 
@@ -210,9 +210,9 @@ while True:
                         if level == 1:
                             movimento_y_tiro_2 = 5
                         elif level == 2:
-                            movimento_y_tiro_2 = 8
+                            movimento_y_tiro_2 = 7
                         else: 
-                            movimento_y_tiro_2 = 13
+                            movimento_y_tiro_2 = 10
                     else:
                         movimento_y_tiro_2 = 0
                             
@@ -289,9 +289,9 @@ while True:
                     if level == 1:
                         velocidade_x_inimigo = randint(3, 4)
                     elif level == 2:
-                        velocidade_x_inimigo = randint(5, 10)
+                        velocidade_x_inimigo = randint(5, 6)
                     elif level == 3:
-                        velocidade_x_inimigo = randint(10, 20)
+                        velocidade_x_inimigo = randint(7, 8)
                 
                 if inimigo_rect_2.colliderect(tiro_rect):
                     atirou = False
@@ -309,9 +309,9 @@ while True:
                     pos_x_inimigo_2 = 1100
                     pos_y_inimigo_2 = randint(10, 575)
                     if level == 2:
-                        velocidade_x_inimigo = randint(5, 10)
+                        velocidade_x_inimigo = randint(5, 6)
                     elif level == 3:
-                        velocidade_x_inimigo = randint(10, 20)
+                        velocidade_x_inimigo = randint(7, 8)
 
                 if pos_x_tiro >= 1001:
                     atirou = False
@@ -349,9 +349,9 @@ while True:
                     if level == 1:
                         velocidade_x_inimigo = randint(3, 4)
                     elif level == 2:
-                        velocidade_x_inimigo = randint(5, 10)
+                        velocidade_x_inimigo = randint(5, 6)
                     elif level == 3:
-                        velocidade_x_inimigo = randint(10, 20)
+                        velocidade_x_inimigo = randint(7, 8)
                 
                 if inimigo_rect_2.colliderect(tiro_rect_2):
                     atirou2 = False
@@ -369,9 +369,9 @@ while True:
                     pos_x_inimigo_2 = 1100
                     pos_y_inimigo_2 = randint(10, 575)
                     if level == 2:
-                        velocidade_x_inimigo = randint(5, 10)
+                        velocidade_x_inimigo = randint(5, 6)
                     elif level == 3:
-                        velocidade_x_inimigo = randint(10, 20)
+                        velocidade_x_inimigo = randint(7, 8)
 
                 if pos_x_tiro_2 >= 1001:
                     atirou2 = False
@@ -403,9 +403,9 @@ while True:
                 if level == 1:
                     velocidade_x_inimigo = randint(3, 4)
                 elif level == 2:
-                    velocidade_x_inimigo = randint(5, 10)
+                    velocidade_x_inimigo = randint(5, 6)
                 elif level == 3:
-                    velocidade_x_inimigo = randint(10, 20)
+                    velocidade_x_inimigo = randint(7, 8)
 
             if level == 2 or level == 3:
                 pos_x_inimigo_2 -= velocidade_inimigo_2
@@ -417,9 +417,9 @@ while True:
                     pos_x_inimigo_2 = 1100
                     pos_y_inimigo_2 = randint(10, 575)
                     if level == 2:
-                        velocidade_x_inimigo = randint(5, 10)
+                        velocidade_x_inimigo = randint(5, 6)
                     elif level == 3:
-                        velocidade_x_inimigo = randint(10, 20)
+                        velocidade_x_inimigo = randint(7, 8)
 
             #Pontuação
             if pontuacao <= -1:
