@@ -2,7 +2,7 @@ from re import X
 import pygame
 from pygame.locals import *
 from sys import exit
-from random import choice, randint
+from random import randint
 
 clock = pygame.time.Clock()
 
