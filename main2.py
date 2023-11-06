@@ -379,7 +379,7 @@ while True:
 
             if player_derrotado_2 == False:
                 #Tiro2
-                if pygame.key.get_pressed()[K_0]:
+                if pygame.key.get_pressed()[K_KP0]:
                     atirou2 = True
                     if level == 1:
                         velocidade_x_tiro_2 = 10
