@@ -23,7 +23,7 @@ bg = pygame.image.load('img/fundo_jogo.png').convert_alpha()
 bg = pygame.transform.scale(bg, (x, y))
 
 #Background Começar
-bg_comecar = pygame.image.load('img/comecar.png').convert_alpha()
+bg_comecar = pygame.image.load('img/comecar_2.png').convert_alpha()
 bg_comecar = pygame.transform.scale(bg_comecar, (x, y))
 iniciar = False
 
