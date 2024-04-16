@@ -123,8 +123,8 @@ while True:
             pygame.quit()
             exit()
 
-    if iniciar == True:
-        if player_derrotado == False:
+    if iniciar:
+        if not player_derrotado:
             screen.blit(bg, (0, 0))
 
             #Movimentação da tela
